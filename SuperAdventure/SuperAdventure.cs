@@ -16,6 +16,7 @@ namespace SuperAdventure
     {
         private Player _player;
         private Monster _currentMonster;
+        private Item _buyItem;
 
         public SuperAdventure()
         {
@@ -31,28 +32,29 @@ namespace SuperAdventure
             lblLevel.Text = _player.Level.ToString();
         }
 
-        private void btnNorth_Click(object sender, EventArgs e)
+        private void BtnNorth_Click(object sender, EventArgs e)
         {
             MoveTo(_player.CurrentLocation.LocationToNorth);
         }
 
-        private void btnEast_Click(object sender, EventArgs e)
+        private void BtnEast_Click(object sender, EventArgs e)
         {
             MoveTo(_player.CurrentLocation.LocationToEast);
         }
 
-        private void btnSouth_Click(object sender, EventArgs e)
+        private void BtnSouth_Click(object sender, EventArgs e)
         {
             MoveTo(_player.CurrentLocation.LocationToSouth);
         }
 
-        private void btnWest_Click(object sender, EventArgs e)
+        private void BtnWest_Click(object sender, EventArgs e)
         {
             MoveTo(_player.CurrentLocation.LocationToWest);
         }
 
         private void MoveTo(Location newLocation)
         {
+            rtbMessages.Text = "";
             //Does the location have any required items
             if (!_player.HasRequiredItemToEnterThisLocation(newLocation))
             {
@@ -191,6 +193,24 @@ namespace SuperAdventure
 
             // Refresh player's potions combobox
             UpdatePotionListInUI();
+
+            if (newLocation.ID == World.LOCATION_ID_SHOP)
+            {
+                Shop shop = (Shop)World.LocationByID(World.LOCATION_ID_SHOP);
+                cboShopItems.DataSource = shop.forSale;
+                cboShopItems.DisplayMember = "Name";
+                cboShopItems.SelectedValue = "ID";
+                try
+                {
+                    _buyItem = shop.ItemByID((int)cboShopItems.SelectedValue);
+                }
+                catch { rtbMessages.Text += "Assigning _buyItem in the MoveTo method failed." + Environment.NewLine; }
+                cboShopItems.Visible = true;
+            }
+            else {
+                cboShopItems.Visible = false;
+                btnBuyItem.Visible = false;
+            }
         }
 
         private void UpdateInventoryListInUI()
@@ -256,7 +276,7 @@ namespace SuperAdventure
                 cboWeapons.DataSource = weapons;
                 cboWeapons.DisplayMember = "Name";
                 cboWeapons.ValueMember = "ID";
-
+                
                 cboWeapons.SelectedIndex = 0;
             }
         }
@@ -292,7 +312,7 @@ namespace SuperAdventure
             }
         }
 
-        private void btnUseWeapon_Click(object sender, EventArgs e)
+        private void BtnUseWeapon_Click(object sender, EventArgs e)
         {
             // Get the currently selected weapon from the cboWeapons ComboBox
             Weapon currentWeapon = (Weapon)cboWeapons.SelectedItem;
@@ -403,7 +423,7 @@ namespace SuperAdventure
             }
         }
 
-        private void btnUsePotion_Click(object sender, EventArgs e)
+        private void BtnUsePotion_Click(object sender, EventArgs e)
         {
             // Get the currently selected potion from the combobox
             HealingPotion potion = (HealingPotion)cboPotions.SelectedItem;
@@ -454,6 +474,33 @@ namespace SuperAdventure
             lblHitPoints.Text = _player.CurrentHitPoints.ToString();
             UpdateInventoryListInUI();
             UpdatePotionListInUI();
+        }
+
+        private void btnBuyItem_Click(object sender, EventArgs e)
+        {
+            int gold = _buyItem.Value;
+            if (gold <= _player.Gold)
+            {
+                rtbMessages.Text += "You just purchased a " + _buyItem.Name + " for " + _buyItem.Value + " gold." + Environment.NewLine;
+                _player.Gold -= gold;
+                _player.Inventory.Add(new InventoryItem(_buyItem, 1));
+            }
+            else
+            {
+                rtbMessages.Text += "You do not have enough gold to buy this item." + Environment.NewLine;
+            }
+        }
+
+        private void cboShopItems_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _buyItem = (Item)cboShopItems.SelectedItem;
+            try
+            {
+                int gold = _buyItem.Value;
+                btnBuyItem.Text = "Buy (" + gold + ") Gold";
+            }
+            catch { rtbMessages.Text += "Assigning gold failed." + Environment.NewLine; }
+            btnBuyItem.Visible = true;
         }
     }
 }

@@ -49,6 +49,8 @@
             this.rtbMessages = new System.Windows.Forms.RichTextBox();
             this.dgvInventory = new System.Windows.Forms.DataGridView();
             this.dgvQuests = new System.Windows.Forms.DataGridView();
+            this.btnBuyItem = new System.Windows.Forms.Button();
+            this.cboShopItems = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInventory)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvQuests)).BeginInit();
             this.SuspendLayout();
@@ -148,23 +150,23 @@
             // 
             // btnUseWeapon
             // 
-            this.btnUseWeapon.Location = new System.Drawing.Point(620, 559);
+            this.btnUseWeapon.Location = new System.Drawing.Point(632, 560);
             this.btnUseWeapon.Name = "btnUseWeapon";
             this.btnUseWeapon.Size = new System.Drawing.Size(75, 23);
             this.btnUseWeapon.TabIndex = 11;
             this.btnUseWeapon.Text = "Use";
             this.btnUseWeapon.UseVisualStyleBackColor = true;
-            this.btnUseWeapon.Click += new System.EventHandler(this.btnUseWeapon_Click);
+            this.btnUseWeapon.Click += new System.EventHandler(this.BtnUseWeapon_Click);
             // 
             // btnUsePotion
             // 
-            this.btnUsePotion.Location = new System.Drawing.Point(620, 593);
+            this.btnUsePotion.Location = new System.Drawing.Point(632, 594);
             this.btnUsePotion.Name = "btnUsePotion";
             this.btnUsePotion.Size = new System.Drawing.Size(75, 23);
             this.btnUsePotion.TabIndex = 12;
             this.btnUsePotion.Text = "Use";
             this.btnUsePotion.UseVisualStyleBackColor = true;
-            this.btnUsePotion.Click += new System.EventHandler(this.btnUsePotion_Click);
+            this.btnUsePotion.Click += new System.EventHandler(this.BtnUsePotion_Click);
             // 
             // btnNorth
             // 
@@ -174,7 +176,7 @@
             this.btnNorth.TabIndex = 13;
             this.btnNorth.Text = "North";
             this.btnNorth.UseVisualStyleBackColor = true;
-            this.btnNorth.Click += new System.EventHandler(this.btnNorth_Click);
+            this.btnNorth.Click += new System.EventHandler(this.BtnNorth_Click);
             // 
             // btnEast
             // 
@@ -184,7 +186,7 @@
             this.btnEast.TabIndex = 14;
             this.btnEast.Text = "East";
             this.btnEast.UseVisualStyleBackColor = true;
-            this.btnEast.Click += new System.EventHandler(this.btnEast_Click);
+            this.btnEast.Click += new System.EventHandler(this.BtnEast_Click);
             // 
             // btnSouth
             // 
@@ -194,7 +196,7 @@
             this.btnSouth.TabIndex = 15;
             this.btnSouth.Text = "South";
             this.btnSouth.UseVisualStyleBackColor = true;
-            this.btnSouth.Click += new System.EventHandler(this.btnSouth_Click);
+            this.btnSouth.Click += new System.EventHandler(this.BtnSouth_Click);
             // 
             // btnWest
             // 
@@ -204,7 +206,7 @@
             this.btnWest.TabIndex = 16;
             this.btnWest.Text = "West";
             this.btnWest.UseVisualStyleBackColor = true;
-            this.btnWest.Click += new System.EventHandler(this.btnWest_Click);
+            this.btnWest.Click += new System.EventHandler(this.BtnWest_Click);
             // 
             // rtbLocation
             // 
@@ -258,11 +260,35 @@
             this.dgvQuests.Size = new System.Drawing.Size(312, 189);
             this.dgvQuests.TabIndex = 20;
             // 
+            // btnBuyItem
+            // 
+            this.btnBuyItem.Location = new System.Drawing.Point(573, 524);
+            this.btnBuyItem.Name = "btnBuyItem";
+            this.btnBuyItem.Size = new System.Drawing.Size(134, 23);
+            this.btnBuyItem.TabIndex = 22;
+            this.btnBuyItem.Text = "Buy";
+            this.btnBuyItem.UseVisualStyleBackColor = true;
+            this.btnBuyItem.Click += new System.EventHandler(this.btnBuyItem_Click);
+            // 
+            // cboShopItems
+            // 
+            this.cboShopItems.DisplayMember = "\"Value\"";
+            this.cboShopItems.FormattingEnabled = true;
+            this.cboShopItems.Location = new System.Drawing.Point(369, 524);
+            this.cboShopItems.MaxDropDownItems = 10;
+            this.cboShopItems.Name = "cboShopItems";
+            this.cboShopItems.Size = new System.Drawing.Size(121, 24);
+            this.cboShopItems.TabIndex = 23;
+            this.cboShopItems.ValueMember = "\"";
+            this.cboShopItems.SelectedIndexChanged += new System.EventHandler(this.cboShopItems_SelectedIndexChanged);
+            // 
             // SuperAdventure
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(717, 643);
+            this.Controls.Add(this.cboShopItems);
+            this.Controls.Add(this.btnBuyItem);
             this.Controls.Add(this.dgvQuests);
             this.Controls.Add(this.dgvInventory);
             this.Controls.Add(this.rtbMessages);
@@ -313,9 +339,11 @@
         private System.Windows.Forms.Button btnSouth;
         private System.Windows.Forms.Button btnWest;
         private System.Windows.Forms.RichTextBox rtbLocation;
-        private System.Windows.Forms.RichTextBox rtbMessages;
         private System.Windows.Forms.DataGridView dgvInventory;
         private System.Windows.Forms.DataGridView dgvQuests;
+        private System.Windows.Forms.RichTextBox rtbMessages;
+        private System.Windows.Forms.Button btnBuyItem;
+        private System.Windows.Forms.ComboBox cboShopItems;
     }
 }
 

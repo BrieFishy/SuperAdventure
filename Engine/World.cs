@@ -23,6 +23,8 @@ namespace Engine
         public const int ITEM_ID_SPIDER_FANG = 8;
         public const int ITEM_ID_SPIDER_SILK = 9;
         public const int ITEM_ID_ADVENTURER_PASS = 10;
+        public const int ITEM_ID_OLD_SWORD = 11;
+        public const int ITEM_ID_LESS_OLD_SWORD = 12;
 
         public const int MONSTER_ID_RAT = 1;
         public const int MONSTER_ID_SNAKE = 2;
@@ -40,6 +42,7 @@ namespace Engine
         public const int LOCATION_ID_FARM_FIELD = 7;
         public const int LOCATION_ID_BRIDGE = 8;
         public const int LOCATION_ID_SPIDER_FIELD = 9;
+        public const int LOCATION_ID_SHOP = 10;
 
         static World()
         {
@@ -51,16 +54,18 @@ namespace Engine
 
         private static void PopulateItems()
         {
-            Items.Add(new Weapon(ITEM_ID_RUSTY_SWORD, "Rusty sword", "Rusty swords", 0, 5));
-            Items.Add(new Item(ITEM_ID_RAT_TAIL, "Rat tail", "Rat tails"));
-            Items.Add(new Item(ITEM_ID_PIECE_OF_FUR, "Piece of fur", "Pieces of fur"));
-            Items.Add(new Item(ITEM_ID_SNAKE_FANG, "Snake fang", "Snake fangs"));
-            Items.Add(new Item(ITEM_ID_SNAKESKIN, "Snakeskin", "Snakeskins"));
-            Items.Add(new Weapon(ITEM_ID_CLUB, "Club", "Clubs", 3, 10));
-            Items.Add(new HealingPotion(ITEM_ID_HEALING_POTION, "Healing potion", "Healing potions", 5));
-            Items.Add(new Item(ITEM_ID_SPIDER_FANG, "Spider fang", "Spider fangs"));
-            Items.Add(new Item(ITEM_ID_SPIDER_SILK, "Spider silk", "Spider silks"));
-            Items.Add(new Item(ITEM_ID_ADVENTURER_PASS, "Adventurer pass", "Adventurer passes"));
+            Items.Add(new Weapon(ITEM_ID_RUSTY_SWORD, "Rusty sword", "Rusty swords", 10, 0, 5));
+            Items.Add(new Item(ITEM_ID_RAT_TAIL, "Rat tail", "Rat tails", 8));
+            Items.Add(new Item(ITEM_ID_PIECE_OF_FUR, "Piece of fur", "Pieces of fur", 4));
+            Items.Add(new Item(ITEM_ID_SNAKE_FANG, "Snake fang", "Snake fangs", 8));
+            Items.Add(new Item(ITEM_ID_SNAKESKIN, "Snakeskin", "Snakeskins", 4));
+            Items.Add(new Weapon(ITEM_ID_CLUB, "Club", "Clubs", 50, 2, 10));
+            Items.Add(new HealingPotion(ITEM_ID_HEALING_POTION, "Healing potion", "Healing potions", 20, 10));
+            Items.Add(new Item(ITEM_ID_SPIDER_FANG, "Spider fang", "Spider fangs", 10));
+            Items.Add(new Item(ITEM_ID_SPIDER_SILK, "Spider silk", "Spider silks", 15));
+            Items.Add(new Item(ITEM_ID_ADVENTURER_PASS, "Adventurer pass", "Adventurer passes", 0));
+            Items.Add(new Weapon(ITEM_ID_OLD_SWORD, "Old sword", "Old swords", 50, 3, 10));
+            Items.Add(new Weapon(ITEM_ID_LESS_OLD_SWORD, "Less old sword", "Less old swords", 100, 4, 15));
         }
 
         private static void PopulateMonsters()
@@ -73,7 +78,7 @@ namespace Engine
             snake.LootTable.Add(new LootItem(ItemByID(ITEM_ID_SNAKE_FANG), 75, false));
             snake.LootTable.Add(new LootItem(ItemByID(ITEM_ID_SNAKESKIN), 75, true));
 
-            Monster giantSpider = new Monster(MONSTER_ID_GIANT_SPIDER, "Giant spider", 20, 5, 40, 10, 10);
+            Monster giantSpider = new Monster(MONSTER_ID_GIANT_SPIDER, "Giant spider", 20, 10, 40, 10, 10);
             giantSpider.LootTable.Add(new LootItem(ItemByID(ITEM_ID_SPIDER_FANG), 75, true));
             giantSpider.LootTable.Add(new LootItem(ItemByID(ITEM_ID_SPIDER_SILK), 25, false));
 
@@ -134,6 +139,13 @@ namespace Engine
             Location spiderField = new Location(LOCATION_ID_SPIDER_FIELD, "Forest", "You see spider webs covering covering the trees in this forest.");
             spiderField.MonsterLivingHere = MonsterByID(MONSTER_ID_GIANT_SPIDER);
 
+            List<Item> shop1Items = new List<Item>();
+            shop1Items.Add(World.ItemByID(ITEM_ID_CLUB));
+            shop1Items.Add(World.ItemByID(ITEM_ID_HEALING_POTION));
+            shop1Items.Add(World.ItemByID(ITEM_ID_OLD_SWORD));
+            shop1Items.Add(World.ItemByID(ITEM_ID_LESS_OLD_SWORD));
+            Location shop1 = new Shop(LOCATION_ID_SHOP, "Shop", "You see a man behind a dusty counter, a display set in front of him with prices to each item.", shop1Items);
+
             // Link the locations together
             home.LocationToNorth = townSquare;
 
@@ -157,8 +169,11 @@ namespace Engine
 
             bridge.LocationToWest = guardPost;
             bridge.LocationToEast = spiderField;
+            bridge.LocationToSouth = shop1;
 
             spiderField.LocationToWest = bridge;
+
+            shop1.LocationToNorth = bridge;
 
             // Add the locations to the static list
             Locations.Add(home);
@@ -170,6 +185,7 @@ namespace Engine
             Locations.Add(farmersField);
             Locations.Add(bridge);
             Locations.Add(spiderField);
+            Locations.Add(shop1);
         }
 
         public static Item ItemByID(int id)
