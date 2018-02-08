@@ -18,7 +18,7 @@ namespace Engine
             ID = id;
             Name = name;
             NamePlural = namePlural;
-            int Value = value;
+            Value = value;
         }
     }
 }
