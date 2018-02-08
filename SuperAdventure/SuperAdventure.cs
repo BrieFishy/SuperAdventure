@@ -54,7 +54,6 @@ namespace SuperAdventure
 
         private void MoveTo(Location newLocation)
         {
-            rtbMessages.Text = "";
             //Does the location have any required items
             if (!_player.HasRequiredItemToEnterThisLocation(newLocation))
             {
@@ -200,11 +199,7 @@ namespace SuperAdventure
                 cboShopItems.DataSource = shop.forSale;
                 cboShopItems.DisplayMember = "Name";
                 cboShopItems.SelectedValue = "ID";
-                try
-                {
-                    _buyItem = shop.ItemByID((int)cboShopItems.SelectedValue);
-                }
-                catch { rtbMessages.Text += "Assigning _buyItem in the MoveTo method failed." + Environment.NewLine; }
+                _buyItem = (Item)cboShopItems.SelectedItem;
                 cboShopItems.Visible = true;
             }
             else {
@@ -478,13 +473,19 @@ namespace SuperAdventure
 
         private void btnBuyItem_Click(object sender, EventArgs e)
         {
+            _buyItem = (Item)cboShopItems.SelectedItem;
             int gold = _buyItem.Value;
             if (gold <= _player.Gold)
             {
                 rtbMessages.Text += "You just purchased a " + _buyItem.Name + " for " + _buyItem.Value + " gold." + Environment.NewLine;
                 _player.Gold -= gold;
-                _player.Inventory.Add(new InventoryItem(_buyItem, 1));
+                _player.AddItemToInventory(_buyItem);
+                UpdateInventoryListInUI();
+                UpdateWeaponListInUI();
+                UpdatePotionListInUI();
+                lblGold.Text = _player.Gold.ToString();
             }
+
             else
             {
                 rtbMessages.Text += "You do not have enough gold to buy this item." + Environment.NewLine;
