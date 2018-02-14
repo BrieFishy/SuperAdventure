@@ -115,6 +115,10 @@ namespace Engine
                     {
                         // Subtract the quantity from the player's inventory that was needed to complete the quest
                         ii.Quantity -= qci.Quantity;
+                        if (ii.Quantity == 0)
+                        {
+                            Inventory.Remove(ii);
+                        }
                         break;
                     }
                 }
@@ -136,6 +140,23 @@ namespace Engine
 
             // They didn't have the item, so add it to their inventory, with a quantity of 1
             Inventory.Add(new InventoryItem(itemToAdd, 1));
+        }
+        public bool RemoveItemFromInventory(Item itemToRemove)
+            //the bool returns success. True means it worked, false means it failed.
+        {
+            foreach (InventoryItem ii in Inventory)
+            {
+                if (ii.Details == itemToRemove & ii.Quantity>0)
+                {
+                    ii.Quantity -= 1;
+                    if(ii.Quantity == 0)
+                    {
+                        Inventory.Remove(ii);
+                    }
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void MarkQuestCompleted(Quest quest)

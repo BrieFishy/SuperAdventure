@@ -16,7 +16,7 @@ namespace SuperAdventure
     {
         private Player _player;
         private Monster _currentMonster;
-        private Item _buyItem;
+        private Item _currentShopItem;
 
         public SuperAdventure()
         {
@@ -193,19 +193,28 @@ namespace SuperAdventure
             // Refresh player's potions combobox
             UpdatePotionListInUI();
 
-            if (newLocation.ID == World.LOCATION_ID_SHOP)
+            if (newLocation is Shop)
             {
                 Shop shop = (Shop)World.LocationByID(World.LOCATION_ID_SHOP);
                 cboShopItems.DataSource = shop.forSale;
                 cboShopItems.DisplayMember = "Name";
                 cboShopItems.SelectedValue = "ID";
-                _buyItem = (Item)cboShopItems.SelectedItem;
+                cboShopItems.SelectedIndex = 0;
+                _currentShopItem = (Item)cboShopItems.SelectedItem;
                 cboShopItems.Visible = true;
+                btnBuyItem.Visible = true;
+                UpdateCboSellInventory(0);
+                cboSellInventory.Visible = true;
+                btnSellItem.Visible = true;
             }
             else {
                 cboShopItems.Visible = false;
                 btnBuyItem.Visible = false;
+                cboSellInventory.Visible = false;
+                btnSellItem.Visible = false;
             }
+            rtbMessages.SelectionStart = rtbMessages.Text.Length;
+            rtbMessages.ScrollToCaret();
         }
 
         private void UpdateInventoryListInUI()
@@ -416,8 +425,8 @@ namespace SuperAdventure
                     MoveTo(World.LocationByID(World.LOCATION_ID_HOME));
                 }
             }
+            scrollMessagesToBottom();
         }
-
         private void BtnUsePotion_Click(object sender, EventArgs e)
         {
             // Get the currently selected potion from the combobox
@@ -467,19 +476,18 @@ namespace SuperAdventure
 
             // Refresh player data in UI
             lblHitPoints.Text = _player.CurrentHitPoints.ToString();
-            UpdateInventoryListInUI();
-            UpdatePotionListInUI();
+            scrollMessagesToBottom();
         }
 
         private void btnBuyItem_Click(object sender, EventArgs e)
         {
-            _buyItem = (Item)cboShopItems.SelectedItem;
-            int gold = _buyItem.Value;
+            _currentShopItem = (Item)cboShopItems.SelectedItem;
+            int gold = _currentShopItem.Value;
             if (gold <= _player.Gold)
             {
-                rtbMessages.Text += "You just purchased a " + _buyItem.Name + " for " + _buyItem.Value + " gold." + Environment.NewLine;
+                rtbMessages.Text += "You just purchased a " + _currentShopItem.Name + " for " + _currentShopItem.Value + " gold." + Environment.NewLine;
                 _player.Gold -= gold;
-                _player.AddItemToInventory(_buyItem);
+                _player.AddItemToInventory(_currentShopItem);
                 UpdateInventoryListInUI();
                 UpdateWeaponListInUI();
                 UpdatePotionListInUI();
@@ -490,18 +498,85 @@ namespace SuperAdventure
             {
                 rtbMessages.Text += "You do not have enough gold to buy this item." + Environment.NewLine;
             }
+            scrollMessagesToBottom();
         }
 
         private void cboShopItems_SelectedIndexChanged(object sender, EventArgs e)
         {
-            _buyItem = (Item)cboShopItems.SelectedItem;
+            _currentShopItem = (Item)cboShopItems.SelectedItem;
             try
             {
-                int gold = _buyItem.Value;
+                int gold = _currentShopItem.Value;
                 btnBuyItem.Text = "Buy (" + gold + ") Gold";
             }
-            catch { rtbMessages.Text += "Assigning gold failed." + Environment.NewLine; }
-            btnBuyItem.Visible = true;
+            catch {}
+        }
+
+        private void cboSellInventory_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _currentShopItem = (Item)cboSellInventory.SelectedItem;
+            try
+            {
+                int gold = _currentShopItem.Value / 2;
+                btnSellItem.Text = "Sell (" + gold + ") Gold";
+            }
+            catch { }
+        }
+
+        private void btnSellItem_Click(object sender, EventArgs e)
+        {
+            int cboSellInventorySelectedIndex = cboSellInventory.SelectedIndex;
+            _currentShopItem = (Item)cboSellInventory.SelectedItem;
+            int gold = _currentShopItem.Value / 2;
+            lblGold.Text = _player.Gold.ToString();
+            if (_player.RemoveItemFromInventory(_currentShopItem))
+            {
+                rtbMessages.Text += "You just sold a " + _currentShopItem.Name + " for " + gold + " Gold." +Environment.NewLine;
+                _player.Gold += gold;
+                cboSellInventory.SelectedValue = "ID";
+                UpdateCboSellInventory(cboSellInventorySelectedIndex);
+                UpdateInventoryListInUI();
+            }
+            else
+            {
+                rtbMessages.Text += "You do not have a " + _currentShopItem.Name + " to sell." + Environment.NewLine;
+            }
+            scrollMessagesToBottom();
+        }
+
+        private void UpdateCboSellInventory(int selectedIndex)
+        {
+            List<Item> sellInventory = new List<Item>();
+            foreach (InventoryItem item in _player.Inventory)
+            {
+                if (item.Details.Value > 0)
+                {
+                    sellInventory.Add(item.Details);
+                }
+            }
+            if (sellInventory.Count() < 1)
+            {
+                cboSellInventory.Visible = false;
+                btnSellItem.Visible = false;
+            }
+            else
+            {
+                cboSellInventory.DataSource = sellInventory;
+                cboSellInventory.DisplayMember = "Name";
+                try
+                {
+                    cboSellInventory.SelectedIndex = selectedIndex;
+                }
+                catch
+                {
+                    cboSellInventory.SelectedIndex = 0;
+                }
+            }
+        }
+        private void scrollMessagesToBottom()
+        {
+            rtbMessages.SelectionStart = rtbMessages.Text.Length;
+            rtbMessages.ScrollToCaret();
         }
     }
 }

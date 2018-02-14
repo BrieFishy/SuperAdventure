@@ -51,6 +51,8 @@
             this.dgvQuests = new System.Windows.Forms.DataGridView();
             this.btnBuyItem = new System.Windows.Forms.Button();
             this.cboShopItems = new System.Windows.Forms.ComboBox();
+            this.btnSellItem = new System.Windows.Forms.Button();
+            this.cboSellInventory = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInventory)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvQuests)).BeginInit();
             this.SuspendLayout();
@@ -262,9 +264,9 @@
             // 
             // btnBuyItem
             // 
-            this.btnBuyItem.Location = new System.Drawing.Point(573, 524);
+            this.btnBuyItem.Location = new System.Drawing.Point(573, 551);
             this.btnBuyItem.Name = "btnBuyItem";
-            this.btnBuyItem.Size = new System.Drawing.Size(134, 23);
+            this.btnBuyItem.Size = new System.Drawing.Size(134, 30);
             this.btnBuyItem.TabIndex = 22;
             this.btnBuyItem.Text = "Buy";
             this.btnBuyItem.UseVisualStyleBackColor = true;
@@ -274,7 +276,7 @@
             // 
             this.cboShopItems.DisplayMember = "\"Value\"";
             this.cboShopItems.FormattingEnabled = true;
-            this.cboShopItems.Location = new System.Drawing.Point(369, 524);
+            this.cboShopItems.Location = new System.Drawing.Point(334, 559);
             this.cboShopItems.MaxDropDownItems = 10;
             this.cboShopItems.Name = "cboShopItems";
             this.cboShopItems.Size = new System.Drawing.Size(121, 24);
@@ -282,13 +284,35 @@
             this.cboShopItems.ValueMember = "\"";
             this.cboShopItems.SelectedIndexChanged += new System.EventHandler(this.cboShopItems_SelectedIndexChanged);
             // 
+            // btnSellItem
+            // 
+            this.btnSellItem.Location = new System.Drawing.Point(573, 587);
+            this.btnSellItem.Name = "btnSellItem";
+            this.btnSellItem.Size = new System.Drawing.Size(134, 30);
+            this.btnSellItem.TabIndex = 24;
+            this.btnSellItem.Text = "Sell";
+            this.btnSellItem.UseVisualStyleBackColor = true;
+            this.btnSellItem.Click += new System.EventHandler(this.btnSellItem_Click);
+            // 
+            // cboSellInventory
+            // 
+            this.cboSellInventory.DisplayMember = "\"Value\"";
+            this.cboSellInventory.FormattingEnabled = true;
+            this.cboSellInventory.Location = new System.Drawing.Point(334, 593);
+            this.cboSellInventory.MaxDropDownItems = 10;
+            this.cboSellInventory.Name = "cboSellInventory";
+            this.cboSellInventory.Size = new System.Drawing.Size(121, 24);
+            this.cboSellInventory.TabIndex = 25;
+            this.cboSellInventory.ValueMember = "\"";
+            this.cboSellInventory.SelectedIndexChanged += new System.EventHandler(this.cboSellInventory_SelectedIndexChanged);
+            // 
             // SuperAdventure
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(717, 643);
+            this.Controls.Add(this.cboSellInventory);
             this.Controls.Add(this.cboShopItems);
-            this.Controls.Add(this.btnBuyItem);
             this.Controls.Add(this.dgvQuests);
             this.Controls.Add(this.dgvInventory);
             this.Controls.Add(this.rtbMessages);
@@ -310,6 +334,8 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.btnSellItem);
+            this.Controls.Add(this.btnBuyItem);
             this.Name = "SuperAdventure";
             this.Text = "My Game";
             ((System.ComponentModel.ISupportInitialize)(this.dgvInventory)).EndInit();
@@ -344,6 +370,8 @@
         private System.Windows.Forms.RichTextBox rtbMessages;
         private System.Windows.Forms.Button btnBuyItem;
         private System.Windows.Forms.ComboBox cboShopItems;
+        private System.Windows.Forms.Button btnSellItem;
+        private System.Windows.Forms.ComboBox cboSellInventory;
     }
 }
 

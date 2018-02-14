@@ -23,8 +23,8 @@ namespace Engine
         public const int ITEM_ID_SPIDER_FANG = 8;
         public const int ITEM_ID_SPIDER_SILK = 9;
         public const int ITEM_ID_ADVENTURER_PASS = 10;
-        public const int ITEM_ID_OLD_SWORD = 11;
-        public const int ITEM_ID_LESS_OLD_SWORD = 12;
+        public const int ITEM_ID_DULL_SWORD = 11;
+        public const int ITEM_ID_REGULAR_SWORD = 12;
 
         public const int MONSTER_ID_RAT = 1;
         public const int MONSTER_ID_SNAKE = 2;
@@ -59,13 +59,13 @@ namespace Engine
             Items.Add(new Item(ITEM_ID_PIECE_OF_FUR, "Piece of fur", "Pieces of fur", 4));
             Items.Add(new Item(ITEM_ID_SNAKE_FANG, "Snake fang", "Snake fangs", 8));
             Items.Add(new Item(ITEM_ID_SNAKESKIN, "Snakeskin", "Snakeskins", 4));
-            Items.Add(new Weapon(ITEM_ID_CLUB, "Club", "Clubs", 50, 2, 10));
+            Items.Add(new Weapon(ITEM_ID_CLUB, "Club", "Clubs", 50, 2, 7));
             Items.Add(new HealingPotion(ITEM_ID_HEALING_POTION, "Healing potion", "Healing potions", 20, 10));
             Items.Add(new Item(ITEM_ID_SPIDER_FANG, "Spider fang", "Spider fangs", 10));
-            Items.Add(new Item(ITEM_ID_SPIDER_SILK, "Spider silk", "Spider silks", 15));
+            Items.Add(new Item(ITEM_ID_SPIDER_SILK, "Spider silk", "Spider silks", 16));
             Items.Add(new Item(ITEM_ID_ADVENTURER_PASS, "Adventurer pass", "Adventurer passes", 0));
-            Items.Add(new Weapon(ITEM_ID_OLD_SWORD, "Old sword", "Old swords", 50, 3, 10));
-            Items.Add(new Weapon(ITEM_ID_LESS_OLD_SWORD, "Less old sword", "Less old swords", 100, 4, 15));
+            Items.Add(new Weapon(ITEM_ID_DULL_SWORD, "Dull sword", "Dull swords", 100, 3, 8));
+            Items.Add(new Weapon(ITEM_ID_REGULAR_SWORD, "Regular sword", "Regular swords", 200, 4, 15));
         }
 
         private static void PopulateMonsters()
@@ -140,10 +140,11 @@ namespace Engine
             spiderField.MonsterLivingHere = MonsterByID(MONSTER_ID_GIANT_SPIDER);
 
             List<Item> shop1Items = new List<Item>();
-            shop1Items.Add(World.ItemByID(ITEM_ID_CLUB));
             shop1Items.Add(World.ItemByID(ITEM_ID_HEALING_POTION));
-            shop1Items.Add(World.ItemByID(ITEM_ID_OLD_SWORD));
-            shop1Items.Add(World.ItemByID(ITEM_ID_LESS_OLD_SWORD));
+            shop1Items.Add(World.ItemByID(ITEM_ID_RUSTY_SWORD));
+            shop1Items.Add(World.ItemByID(ITEM_ID_CLUB));
+            shop1Items.Add(World.ItemByID(ITEM_ID_DULL_SWORD));
+            shop1Items.Add(World.ItemByID(ITEM_ID_REGULAR_SWORD));
             Location shop1 = new Shop(LOCATION_ID_SHOP, "Shop", "You see a man behind a dusty counter, a display set in front of him with prices to each item.", shop1Items);
 
             // Link the locations together
