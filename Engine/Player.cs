@@ -14,6 +14,10 @@ namespace Engine
         public Location CurrentLocation { get; set; }
         public List<InventoryItem> Inventory { get; set; }
         public List<PlayerQuest> Quests { get; set; }
+        public Armor breastplate;
+        public Armor shield;
+        public Armor pants;
+
 
         public Player(int currentHitPoints, int maximumHitPoints, int gold, int experiencePoints, int level) : base(currentHitPoints, maximumHitPoints)
         {
@@ -172,6 +176,11 @@ namespace Engine
                     return; // We found the quest, and marked it complete, so get out of this function
                 }
             }
+        }
+
+        public void equipArmor (Armor armor)
+        {
+            switch armor.Type
         }
     }
 }
