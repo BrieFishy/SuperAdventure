@@ -15,6 +15,7 @@ namespace Engine
         public List<InventoryItem> Inventory { get; set; }
         public List<PlayerQuest> Quests { get; set; }
         public Armor breastplate;
+        public Armor helmet;
         public Armor shield;
         public Armor pants;
 
@@ -178,9 +179,26 @@ namespace Engine
             }
         }
 
-        public void equipArmor (Armor armor)
+        public bool equipArmor (Armor armor)
         {
-            switch armor.Type
+            switch (armor.Type)
+            {
+                case "Helmet":
+                    helmet = armor;
+                    break;
+                case "Breastplate":
+                    breastplate = armor;
+                    break;
+                case "Shield":
+                    shield = armor;
+                    break;
+                case "Pants":
+                    pants = armor;
+                    break;
+                default:
+                    return false;
+            }
+            return true;
         }
     }
 }

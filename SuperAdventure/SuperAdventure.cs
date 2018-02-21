@@ -195,7 +195,7 @@ namespace SuperAdventure
 
             if (newLocation is Shop)
             {
-                Shop shop = (Shop)World.LocationByID(World.LOCATION_ID_SHOP);
+                Shop shop = (Shop)World.LocationByID(newLocation.ID);
                 cboShopItems.DataSource = shop.forSale;
                 cboShopItems.DisplayMember = "Name";
                 cboShopItems.SelectedValue = "ID";
