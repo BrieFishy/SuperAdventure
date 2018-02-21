@@ -25,6 +25,10 @@ namespace Engine
         public const int ITEM_ID_ADVENTURER_PASS = 10;
         public const int ITEM_ID_DULL_SWORD = 11;
         public const int ITEM_ID_REGULAR_SWORD = 12;
+        public const int ITEM_ID_BALSA_WOOD_SHIELD = 13;
+        public const int ITEM_ID_FABRIC_HELMET = 14;
+        public const int ITEM_ID_FABRIC_BREASTPLATE = 15;
+        public const int ITEM_ID_FABRIC_PANTS = 16;
 
         public const int MONSTER_ID_RAT = 1;
         public const int MONSTER_ID_SNAKE = 2;
@@ -66,6 +70,10 @@ namespace Engine
             Items.Add(new Item(ITEM_ID_ADVENTURER_PASS, "Adventurer pass", "Adventurer passes", 0));
             Items.Add(new Weapon(ITEM_ID_DULL_SWORD, "Dull sword", "Dull swords", 100, 3, 8));
             Items.Add(new Weapon(ITEM_ID_REGULAR_SWORD, "Regular sword", "Regular swords", 200, 4, 15));
+            Items.Add(new Armor(ITEM_ID_BALSA_WOOD_SHIELD, "Balsa wood shield", "Balsa wood shields", 10, 1, "Shield"));
+            Items.Add(new Armor(ITEM_ID_FABRIC_HELMET, "Fabric helmet", "Fabric helmets", 10, 1, "Helmet"));
+            Items.Add(new Armor(ITEM_ID_FABRIC_BREASTPLATE, "Fabric breastplate", "Fabric breastplates", 10, 1, "Breastplate"));
+            Items.Add(new Armor(ITEM_ID_FABRIC_PANTS, "pair of Fabric pants", "pairs of Fabric pants", 10, 1, "Pants"));
         }
 
         private static void PopulateMonsters()
@@ -145,6 +153,10 @@ namespace Engine
             shop1Items.Add(World.ItemByID(ITEM_ID_CLUB));
             shop1Items.Add(World.ItemByID(ITEM_ID_DULL_SWORD));
             shop1Items.Add(World.ItemByID(ITEM_ID_REGULAR_SWORD));
+            shop1Items.Add(World.ItemByID(ITEM_ID_BALSA_WOOD_SHIELD));
+            shop1Items.Add(World.ItemByID(ITEM_ID_FABRIC_HELMET));
+            shop1Items.Add(World.ItemByID(ITEM_ID_FABRIC_BREASTPLATE));
+            shop1Items.Add(World.ItemByID(ITEM_ID_FABRIC_PANTS));
             Location shop1 = new Shop(LOCATION_ID_SHOP, "Shop", "You see a man behind a dusty counter, a display set in front of him with prices to each item.", shop1Items);
 
             // Link the locations together
