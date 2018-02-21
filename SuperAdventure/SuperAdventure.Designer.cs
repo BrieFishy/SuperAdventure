@@ -53,7 +53,7 @@
             this.btnSellItem = new System.Windows.Forms.Button();
             this.cboSellInventory = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
+            this.lblArmorStrength = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.lblEquippedHelmet = new System.Windows.Forms.Label();
             this.lblEquippedBreastplate = new System.Windows.Forms.Label();
@@ -318,14 +318,15 @@
             this.label6.TabIndex = 26;
             this.label6.Text = "Armor Strength:";
             // 
-            // label7
+            // lblArmorStrength
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(140, 87);
-            this.label7.MaximumSize = new System.Drawing.Size(60, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(0, 17);
-            this.label7.TabIndex = 27;
+            this.lblArmorStrength.AutoSize = true;
+            this.lblArmorStrength.Location = new System.Drawing.Point(140, 87);
+            this.lblArmorStrength.MaximumSize = new System.Drawing.Size(60, 0);
+            this.lblArmorStrength.Name = "lblArmorStrength";
+            this.lblArmorStrength.Size = new System.Drawing.Size(16, 17);
+            this.lblArmorStrength.TabIndex = 27;
+            this.lblArmorStrength.Text = "0";
             // 
             // label8
             // 
@@ -375,9 +376,10 @@
             this.cboArmor.Location = new System.Drawing.Point(334, 545);
             this.cboArmor.MaxDropDownItems = 10;
             this.cboArmor.Name = "cboArmor";
-            this.cboArmor.Size = new System.Drawing.Size(153, 24);
+            this.cboArmor.Size = new System.Drawing.Size(156, 24);
             this.cboArmor.TabIndex = 33;
             this.cboArmor.ValueMember = "\"";
+            this.cboArmor.SelectedIndexChanged += new System.EventHandler(this.cboArmor_SelectedIndexChanged);
             // 
             // btnArmorEquip
             // 
@@ -387,6 +389,7 @@
             this.btnArmorEquip.TabIndex = 34;
             this.btnArmorEquip.Text = "Equip";
             this.btnArmorEquip.UseVisualStyleBackColor = true;
+            this.btnArmorEquip.Click += new System.EventHandler(this.btnArmorEquip_Click);
             // 
             // SuperAdventure
             // 
@@ -400,7 +403,7 @@
             this.Controls.Add(this.lblEquippedBreastplate);
             this.Controls.Add(this.lblEquippedHelmet);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.label7);
+            this.Controls.Add(this.lblArmorStrength);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.cboSellInventory);
             this.Controls.Add(this.cboShopItems);
@@ -462,7 +465,7 @@
         private System.Windows.Forms.Button btnSellItem;
         private System.Windows.Forms.ComboBox cboSellInventory;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label lblArmorStrength;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label lblEquippedHelmet;
         private System.Windows.Forms.Label lblEquippedBreastplate;

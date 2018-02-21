@@ -17,6 +17,7 @@ namespace SuperAdventure
         private Player _player;
         private Monster _currentMonster;
         private Item _currentShopItem;
+        private Armor _equipArmor;
 
         public SuperAdventure()
         {
@@ -193,6 +194,8 @@ namespace SuperAdventure
             // Refresh player's potions combobox
             UpdatePotionListInUI();
 
+            UpdateArmorInUI();
+
             if (newLocation is Shop)
             {
                 Shop shop = (Shop)World.LocationByID(newLocation.ID);
@@ -204,8 +207,6 @@ namespace SuperAdventure
                 cboShopItems.Visible = true;
                 btnBuyItem.Visible = true;
                 UpdateCboSellInventory(0);
-                cboSellInventory.Visible = true;
-                btnSellItem.Visible = true;
             }
             else {
                 cboShopItems.Visible = false;
@@ -402,28 +403,7 @@ namespace SuperAdventure
             }
             else
             {
-                // Monster is still alive
-
-                // Determine the amount of damage the monster does to the player
-                int damageToPlayer = RandomNumberGenerator.NumberBetween(0, _currentMonster.MaximumDamage);
-
-                // Display message
-                rtbMessages.Text += "The " + _currentMonster.Name + " did " + damageToPlayer.ToString() + " points of damage." + Environment.NewLine;
-
-                // Subtract damage from player
-                _player.CurrentHitPoints -= damageToPlayer;
-
-                // Refresh player data in UI
-                lblHitPoints.Text = _player.CurrentHitPoints.ToString();
-
-                if (_player.CurrentHitPoints <= 0)
-                {
-                    // Display message
-                    rtbMessages.Text += "The " + _currentMonster.Name + " killed you." + Environment.NewLine;
-
-                    // Move player to "Home"
-                    MoveTo(World.LocationByID(World.LOCATION_ID_HOME));
-                }
+                monsterAttack();
             }
             scrollMessagesToBottom();
         }
@@ -454,25 +434,7 @@ namespace SuperAdventure
             // Display message
             rtbMessages.Text += "You drink a " + potion.Name + Environment.NewLine;
 
-            // Monster gets their turn to attack
-
-            // Determine the amount of damage the monster does to the player
-            int damageToPlayer = RandomNumberGenerator.NumberBetween(0, _currentMonster.MaximumDamage);
-
-            // Display message
-            rtbMessages.Text += "The " + _currentMonster.Name + " did " + damageToPlayer.ToString() + " points of damage." + Environment.NewLine;
-
-            // Subtract damage from player
-            _player.CurrentHitPoints -= damageToPlayer;
-
-            if (_player.CurrentHitPoints <= 0)
-            {
-                // Display message
-                rtbMessages.Text += "The " + _currentMonster.Name + " killed you." + Environment.NewLine;
-
-                // Move player to "Home"
-                MoveTo(World.LocationByID(World.LOCATION_ID_HOME));
-            }
+            monsterAttack();
 
             // Refresh player data in UI
             lblHitPoints.Text = _player.CurrentHitPoints.ToString();
@@ -491,6 +453,7 @@ namespace SuperAdventure
                 UpdateInventoryListInUI();
                 UpdateWeaponListInUI();
                 UpdatePotionListInUI();
+                UpdateArmorInUI();
                 lblGold.Text = _player.Gold.ToString();
             }
 
@@ -536,6 +499,7 @@ namespace SuperAdventure
                 cboSellInventory.SelectedValue = "ID";
                 UpdateCboSellInventory(cboSellInventorySelectedIndex);
                 UpdateInventoryListInUI();
+                UpdateArmorInUI();
             }
             else
             {
@@ -561,6 +525,8 @@ namespace SuperAdventure
             }
             else
             {
+                cboSellInventory.Visible = true;
+                btnSellItem.Visible = true;
                 cboSellInventory.DataSource = sellInventory;
                 cboSellInventory.DisplayMember = "Name";
                 try
@@ -577,6 +543,79 @@ namespace SuperAdventure
         {
             rtbMessages.SelectionStart = rtbMessages.Text.Length;
             rtbMessages.ScrollToCaret();
+        }
+        private void monsterAttack()
+        {
+            // Monster is still alive
+
+            // Determine the amount of damage the monster does to the player
+            int damageToPlayer = (int)((100-_player.ArmorStrength)/100)*RandomNumberGenerator.NumberBetween(0, _currentMonster.MaximumDamage);
+
+
+            // Display message
+            rtbMessages.Text += "The " + _currentMonster.Name + " did " + damageToPlayer.ToString() + " points of damage." + Environment.NewLine;
+
+            // Subtract damage from player
+            _player.CurrentHitPoints -= damageToPlayer;
+
+            // Refresh player data in UI
+            lblHitPoints.Text = _player.CurrentHitPoints.ToString();
+
+            if (_player.CurrentHitPoints <= 0)
+            {
+                // Display message
+                rtbMessages.Text += "The " + _currentMonster.Name + " killed you." + Environment.NewLine;
+
+                // Move player to "Home"
+                MoveTo(World.LocationByID(World.LOCATION_ID_HOME));
+            }
+        }
+
+        private void cboArmor_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _equipArmor = (Armor)cboArmor.SelectedItem;
+        }
+
+        private void UpdateArmorInUI()
+        {
+            List<Armor> armor = new List<Armor>();
+            foreach (InventoryItem item in _player.Inventory)
+            {
+                if (item.Details is Armor)
+                {
+                    armor.Add((Armor)item.Details);
+                }
+            }
+            if (armor.Count() > 0)
+            {
+                cboArmor.Visible = true;
+                btnArmorEquip.Visible = true;
+                cboArmor.DataSource = armor;
+                cboArmor.DisplayMember = "Name";
+            }
+            else
+            {
+                cboArmor.Visible = false;
+                btnArmorEquip.Visible = false;
+            }
+
+
+        }
+
+        private void btnArmorEquip_Click(object sender, EventArgs e)
+        {
+            if (!_player.equipArmor(_equipArmor))
+            {
+                rtbMessages.Text += "Error: Could not equip " + _equipArmor.Name + ", invalid armor type" + Environment.NewLine;
+            }
+            else
+            {
+                lblArmorStrength.Text = _player.ArmorStrength.ToString();
+                if (_player.Helmet != null) { lblEquippedHelmet.Text = _player.Helmet.Name; }
+                if (_player.Breastplate != null){ lblEquippedBreastplate.Text = _player.Breastplate.Name; }
+                if (_player.Shield != null) { lblEquippedShield.Text = _player.Shield.Name; }
+                if (_player.Pants != null) { lblEquippedPants.Text = _player.Pants.Name; }
+            }
         }
     }
 }

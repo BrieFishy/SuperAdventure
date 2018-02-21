@@ -14,10 +14,11 @@ namespace Engine
         public Location CurrentLocation { get; set; }
         public List<InventoryItem> Inventory { get; set; }
         public List<PlayerQuest> Quests { get; set; }
-        public Armor breastplate;
-        public Armor helmet;
-        public Armor shield;
-        public Armor pants;
+        public int ArmorStrength = 0;
+        public Armor Breastplate;
+        public Armor Helmet;
+        public Armor Shield;
+        public Armor Pants;
 
 
         public Player(int currentHitPoints, int maximumHitPoints, int gold, int experiencePoints, int level) : base(currentHitPoints, maximumHitPoints)
@@ -184,20 +185,25 @@ namespace Engine
             switch (armor.Type)
             {
                 case "Helmet":
-                    helmet = armor;
+                    Helmet = armor;
                     break;
                 case "Breastplate":
-                    breastplate = armor;
+                    Breastplate = armor;
                     break;
                 case "Shield":
-                    shield = armor;
+                    Shield = armor;
                     break;
                 case "Pants":
-                    pants = armor;
+                    Pants = armor;
                     break;
                 default:
                     return false;
             }
+            ArmorStrength = 0;
+            if (Helmet != null) { ArmorStrength += Helmet.Strength; }
+            if (Breastplate != null) { ArmorStrength += Breastplate.Strength; }
+            if (Shield != null) { ArmorStrength += Shield.Strength; }
+            if (Pants != null) { ArmorStrength += Pants.Strength; }
             return true;
         }
     }
