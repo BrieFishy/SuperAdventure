@@ -71,10 +71,6 @@ namespace SuperAdventure
             btnSouth.Visible = (newLocation.LocationToSouth != null);
             btnWest.Visible = (newLocation.LocationToWest != null);
 
-            // Display current location name and description
-            rtbLocation.Text = newLocation.Name + Environment.NewLine;
-            rtbLocation.Text += newLocation.Description + Environment.NewLine;
-
             // Completely heal the player
             _player.CurrentHitPoints = _player.MaximumHitPoints;
 
@@ -161,7 +157,7 @@ namespace SuperAdventure
 
                 _currentMonster = new Monster(standardMonster.ID, standardMonster.Name, standardMonster.MaximumDamage, standardMonster.MinimumDamage,
                     standardMonster.RewardExperiencePoints, standardMonster.RewardGold, standardMonster.CurrentHitPoints, standardMonster.MaximumHitPoints);
-                DisplayMonsterStats();
+                
                 
                 foreach (LootItem lootItem in standardMonster.LootTable)
                 {
@@ -182,21 +178,6 @@ namespace SuperAdventure
                 btnUseWeapon.Visible = false;
                 btnUsePotion.Visible = false;
             }
-
-            // Refresh player's inventory list
-            UpdateInventoryListInUI();
-
-            // Refresh player's quest list
-            UpdateQuestListInUI();
-
-            // Refresh player's weapons combobox
-            UpdateWeaponListInUI();
-
-            // Refresh player's potions combobox
-            UpdatePotionListInUI();
-
-            UpdateArmorInUI();
-
             if (newLocation is Shop)
             {
                 Shop shop = (Shop)World.LocationByID(newLocation.ID);
@@ -215,8 +196,22 @@ namespace SuperAdventure
                 cboSellInventory.Visible = false;
                 btnSellItem.Visible = false;
             }
-            rtbMessages.SelectionStart = rtbMessages.Text.Length;
-            rtbMessages.ScrollToCaret();
+            UpdatertbLocation();
+            // Refresh player's inventory list
+            UpdateInventoryListInUI();
+
+            // Refresh player's quest list
+            UpdateQuestListInUI();
+
+            // Refresh player's weapons combobox
+            UpdateWeaponListInUI();
+
+            // Refresh player's potions combobox
+            UpdatePotionListInUI();
+
+            UpdateArmorInUI();
+
+            ScrollMessagesToBottom();
         }
 
         private void UpdateInventoryListInUI()
@@ -404,7 +399,7 @@ namespace SuperAdventure
             }
             else
             {
-                DisplayMonsterStats();
+                UpdatertbLocation();
                 MonsterAttack();
             }
             ScrollMessagesToBottom();
@@ -475,6 +470,7 @@ namespace SuperAdventure
                 btnBuyItem.Text = "Buy (" + gold + ") Gold";
             }
             catch {}
+            UpdatertbLocation();
         }
 
         private void cboSellInventory_SelectedIndexChanged(object sender, EventArgs e)
@@ -619,12 +615,38 @@ namespace SuperAdventure
             }
         }
 
-        private void DisplayMonsterStats()
+        private void UpdatertbLocation()
         {
             rtbLocation.Text = _player.CurrentLocation.Name + Environment.NewLine + _player.CurrentLocation.Description + Environment.NewLine;
-            rtbLocation.Text += _currentMonster.Name + ":" + Environment.NewLine;
-            rtbLocation.Text += "Max damage: " + _currentMonster.MaximumDamage + Environment.NewLine + "Min damage: " + _currentMonster.MinimumDamage + Environment.NewLine;
-            rtbLocation.Text += "Hit points: " + _currentMonster.CurrentHitPoints + Environment.NewLine;
+            if (_player.CurrentLocation.MonsterLivingHere != null)
+            {
+                rtbLocation.Text += _currentMonster.Name + ":" + Environment.NewLine;
+                rtbLocation.Text += "Max damage: " + _currentMonster.MaximumDamage + Environment.NewLine + "Min damage: " + _currentMonster.MinimumDamage + Environment.NewLine;
+                rtbLocation.Text += "Hit points: " + _currentMonster.CurrentHitPoints + Environment.NewLine;
+            }
+            if( _player.CurrentLocation is Shop&_currentShopItem!=null)
+            {
+                rtbLocation.Text += _currentShopItem.Name + ":"+Environment.NewLine;
+                rtbLocation.Text += "Costs "+_currentShopItem.Value + " gold. Can be sold for " + _currentShopItem.Value/2 +" gold." + Environment.NewLine;
+                string type = _currentShopItem.GetType().ToString();
+                
+                switch (type)
+                {
+                    case "Engine.Armor":
+                        Armor armor = (Armor)_currentShopItem;
+                        rtbLocation.Text += "Strength: "+ armor.Strength +Environment.NewLine;
+                        break;
+                    case "Engine.HealingPotion":
+                        HealingPotion healingPotion = (HealingPotion)_currentShopItem;
+                        rtbLocation.Text += "Healing amount: " + healingPotion.AmountToHeal + Environment.NewLine;
+                        break;
+                    case "Engine.Weapon":
+                        Weapon weapon = (Weapon)_currentShopItem;
+                        rtbLocation.Text += "Minimum damage: " + weapon.MinimumDamage + Environment.NewLine;
+                        rtbLocation.Text += "Maximum damage: " + weapon.MaximumDamage + Environment.NewLine;
+                        break;
+                }
+            }
         }
     }
 }
