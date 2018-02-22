@@ -55,6 +55,10 @@ namespace SuperAdventure
 
         private void MoveTo(Location newLocation)
         {
+            if (_player.LevelUp())
+            {
+                rtbMessages.Text += Environment.NewLine + "Level up! You are now level " + _player.Level + ", and have " + _player.MaximumHitPoints + " maximum hit points."+Environment.NewLine;
+            }
             //Does the location have any required items
             if (!_player.HasRequiredItemToEnterThisLocation(newLocation))
             {

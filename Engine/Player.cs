@@ -206,5 +206,17 @@ namespace Engine
             if (Pants != null) { ArmorStrength += Pants.Strength; }
             return true;
         }
+
+        public bool LevelUp()
+        {
+            if (ExperiencePoints >= 100)
+            {
+                ExperiencePoints -= 100;
+                Level++;
+                MaximumHitPoints++;
+                return true;
+            }
+            return false;
+        }
     }
 }

@@ -73,7 +73,7 @@ namespace Engine
             Items.Add(new Armor(ITEM_ID_BALSA_WOOD_SHIELD, "Balsa wood shield", "Balsa wood shields", 10, 1, "Shield"));
             Items.Add(new Armor(ITEM_ID_FABRIC_HELMET, "Fabric helmet", "Fabric helmets", 10, 1, "Helmet"));
             Items.Add(new Armor(ITEM_ID_FABRIC_BREASTPLATE, "Fabric breastplate", "Fabric breastplates", 10, 1, "Breastplate"));
-            Items.Add(new Armor(ITEM_ID_FABRIC_PANTS, "pair of Fabric pants", "pairs of Fabric pants", 10, 1, "Pants"));
+            Items.Add(new Armor(ITEM_ID_FABRIC_PANTS, "Pair of fabric pants", "Pairs of fabric pants", 10, 1, "Pants"));
         }
 
         private static void PopulateMonsters()
