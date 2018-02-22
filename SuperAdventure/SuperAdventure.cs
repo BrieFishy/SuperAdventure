@@ -159,7 +159,7 @@ namespace SuperAdventure
                 // Make a new monster, using the values from the standard monster in the World.Monster list
                 Monster standardMonster = World.MonsterByID(newLocation.MonsterLivingHere.ID);
 
-                _currentMonster = new Monster(standardMonster.ID, standardMonster.Name, standardMonster.MaximumDamage,
+                _currentMonster = new Monster(standardMonster.ID, standardMonster.Name, standardMonster.MaximumDamage, standardMonster.MinimumDamage,
                     standardMonster.RewardExperiencePoints, standardMonster.RewardGold, standardMonster.CurrentHitPoints, standardMonster.MaximumHitPoints);
 
                 foreach (LootItem lootItem in standardMonster.LootTable)
@@ -403,9 +403,9 @@ namespace SuperAdventure
             }
             else
             {
-                monsterAttack();
+                MonsterAttack();
             }
-            scrollMessagesToBottom();
+            ScrollMessagesToBottom();
         }
         private void BtnUsePotion_Click(object sender, EventArgs e)
         {
@@ -434,11 +434,11 @@ namespace SuperAdventure
             // Display message
             rtbMessages.Text += "You drink a " + potion.Name + Environment.NewLine;
 
-            monsterAttack();
+            MonsterAttack();
 
             // Refresh player data in UI
             lblHitPoints.Text = _player.CurrentHitPoints.ToString();
-            scrollMessagesToBottom();
+            ScrollMessagesToBottom();
         }
 
         private void btnBuyItem_Click(object sender, EventArgs e)
@@ -461,7 +461,7 @@ namespace SuperAdventure
             {
                 rtbMessages.Text += "You do not have enough gold to buy this item." + Environment.NewLine;
             }
-            scrollMessagesToBottom();
+            ScrollMessagesToBottom();
         }
 
         private void cboShopItems_SelectedIndexChanged(object sender, EventArgs e)
@@ -505,7 +505,7 @@ namespace SuperAdventure
             {
                 rtbMessages.Text += "You do not have a " + _currentShopItem.Name + " to sell." + Environment.NewLine;
             }
-            scrollMessagesToBottom();
+            ScrollMessagesToBottom();
         }
 
         private void UpdateCboSellInventory(int selectedIndex)
@@ -539,17 +539,17 @@ namespace SuperAdventure
                 }
             }
         }
-        private void scrollMessagesToBottom()
+        private void ScrollMessagesToBottom()
         {
             rtbMessages.SelectionStart = rtbMessages.Text.Length;
             rtbMessages.ScrollToCaret();
         }
-        private void monsterAttack()
+        private void MonsterAttack()
         {
             // Monster is still alive
 
             // Determine the amount of damage the monster does to the player
-            int damageToPlayer = (int)((100-_player.ArmorStrength)/100)*RandomNumberGenerator.NumberBetween(0, _currentMonster.MaximumDamage);
+            int damageToPlayer = (int)((100-_player.ArmorStrength)/100)*RandomNumberGenerator.NumberBetween(_currentMonster.MinimumDamage, _currentMonster.MaximumDamage);
 
 
             // Display message
