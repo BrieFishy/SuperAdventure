@@ -161,7 +161,8 @@ namespace SuperAdventure
 
                 _currentMonster = new Monster(standardMonster.ID, standardMonster.Name, standardMonster.MaximumDamage, standardMonster.MinimumDamage,
                     standardMonster.RewardExperiencePoints, standardMonster.RewardGold, standardMonster.CurrentHitPoints, standardMonster.MaximumHitPoints);
-
+                DisplayMonsterStats();
+                
                 foreach (LootItem lootItem in standardMonster.LootTable)
                 {
                     _currentMonster.LootTable.Add(lootItem);
@@ -403,6 +404,7 @@ namespace SuperAdventure
             }
             else
             {
+                DisplayMonsterStats();
                 MonsterAttack();
             }
             ScrollMessagesToBottom();
@@ -551,7 +553,6 @@ namespace SuperAdventure
             // Determine the amount of damage the monster does to the player
             int damageToPlayer = (int)((100-_player.ArmorStrength)/100)*RandomNumberGenerator.NumberBetween(_currentMonster.MinimumDamage, _currentMonster.MaximumDamage);
 
-
             // Display message
             rtbMessages.Text += "The " + _currentMonster.Name + " did " + damageToPlayer.ToString() + " points of damage." + Environment.NewLine;
 
@@ -564,7 +565,7 @@ namespace SuperAdventure
             if (_player.CurrentHitPoints <= 0)
             {
                 // Display message
-                rtbMessages.Text += "The " + _currentMonster.Name + " killed you." + Environment.NewLine;
+                rtbMessages.Text += Environment.NewLine + "The " + _currentMonster.Name + " killed you." + Environment.NewLine;
 
                 // Move player to "Home"
                 MoveTo(World.LocationByID(World.LOCATION_ID_HOME));
@@ -616,6 +617,14 @@ namespace SuperAdventure
                 if (_player.Shield != null) { lblEquippedShield.Text = _player.Shield.Name; }
                 if (_player.Pants != null) { lblEquippedPants.Text = _player.Pants.Name; }
             }
+        }
+
+        private void DisplayMonsterStats()
+        {
+            rtbLocation.Text = _player.CurrentLocation.Name + Environment.NewLine + _player.CurrentLocation.Description + Environment.NewLine;
+            rtbLocation.Text += _currentMonster.Name + ":" + Environment.NewLine;
+            rtbLocation.Text += "Max damage: " + _currentMonster.MaximumDamage + Environment.NewLine + "Min damage: " + _currentMonster.MinimumDamage + Environment.NewLine;
+            rtbLocation.Text += "Hit points: " + _currentMonster.CurrentHitPoints + Environment.NewLine;
         }
     }
 }

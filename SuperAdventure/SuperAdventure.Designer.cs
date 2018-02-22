@@ -218,16 +218,16 @@
             this.rtbLocation.Location = new System.Drawing.Point(347, 19);
             this.rtbLocation.Name = "rtbLocation";
             this.rtbLocation.ReadOnly = true;
-            this.rtbLocation.Size = new System.Drawing.Size(360, 105);
+            this.rtbLocation.Size = new System.Drawing.Size(360, 118);
             this.rtbLocation.TabIndex = 17;
             this.rtbLocation.Text = "";
             // 
             // rtbMessages
             // 
-            this.rtbMessages.Location = new System.Drawing.Point(347, 130);
+            this.rtbMessages.Location = new System.Drawing.Point(347, 143);
             this.rtbMessages.Name = "rtbMessages";
             this.rtbMessages.ReadOnly = true;
-            this.rtbMessages.Size = new System.Drawing.Size(360, 286);
+            this.rtbMessages.Size = new System.Drawing.Size(360, 273);
             this.rtbMessages.TabIndex = 18;
             this.rtbMessages.Text = "";
             // 
@@ -239,13 +239,13 @@
             this.dgvInventory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvInventory.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgvInventory.Enabled = false;
-            this.dgvInventory.Location = new System.Drawing.Point(16, 130);
+            this.dgvInventory.Location = new System.Drawing.Point(16, 143);
             this.dgvInventory.MultiSelect = false;
             this.dgvInventory.Name = "dgvInventory";
             this.dgvInventory.ReadOnly = true;
             this.dgvInventory.RowHeadersVisible = false;
             this.dgvInventory.RowTemplate.Height = 24;
-            this.dgvInventory.Size = new System.Drawing.Size(312, 309);
+            this.dgvInventory.Size = new System.Drawing.Size(312, 296);
             this.dgvInventory.TabIndex = 19;
             // 
             // dgvQuests
