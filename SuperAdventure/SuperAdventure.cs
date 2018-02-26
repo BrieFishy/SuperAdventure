@@ -55,10 +55,6 @@ namespace SuperAdventure
 
         private void MoveTo(Location newLocation)
         {
-            if (_player.LevelUp())
-            {
-                rtbMessages.Text += Environment.NewLine + "Level up! You are now level " + _player.Level + ", and have " + _player.MaximumHitPoints + " maximum hit points."+Environment.NewLine;
-            }
             //Does the location have any required items
             if (!_player.HasRequiredItemToEnterThisLocation(newLocation))
             {
@@ -102,6 +98,7 @@ namespace SuperAdventure
                         {
                             // Display message
                             rtbMessages.Text += Environment.NewLine;
+                            rtbMessages.Text += newLocation.QuestAvailableHere.QuestFinishedDialogue+Environment.NewLine;
                             rtbMessages.Text += "You complete the '" + newLocation.QuestAvailableHere.Name + "' quest." + Environment.NewLine;
 
                             // Remove quest items from inventory
@@ -123,6 +120,11 @@ namespace SuperAdventure
                             // Mark the quest as completed
                             _player.MarkQuestCompleted(newLocation.QuestAvailableHere);
                         }
+                        else
+                        {
+                            List<String> dialogues = newLocation.QuestAvailableHere.QuestNotFinishedDialogues;
+                            rtbMessages.Text += dialogues[RandomNumberGenerator.NumberBetween(0, dialogues.Count()-1)]+Environment.NewLine;
+                        }
                     }
                 }
                 else
@@ -130,6 +132,8 @@ namespace SuperAdventure
                     // The player does not already have the quest
 
                     // Display the messages
+                    rtbMessages.Text += Environment.NewLine;
+                    rtbMessages.Text += newLocation.QuestAvailableHere.GetQuestDialogue + Environment.NewLine;
                     rtbMessages.Text += "You receive the " + newLocation.QuestAvailableHere.Name + " quest." + Environment.NewLine;
                     rtbMessages.Text += newLocation.QuestAvailableHere.Description + Environment.NewLine;
                     rtbMessages.Text += "To complete it, return with:" + Environment.NewLine;
@@ -383,6 +387,11 @@ namespace SuperAdventure
                     {
                         rtbMessages.Text += "You loot " + inventoryItem.Quantity.ToString() + " " + inventoryItem.Details.NamePlural + Environment.NewLine;
                     }
+                }
+
+                if (_player.LevelUp())
+                {
+                    rtbMessages.Text += Environment.NewLine + "Level up! You are now level " + _player.Level + ", and have " + _player.MaximumHitPoints + " maximum hit points." + Environment.NewLine;
                 }
 
                 // Refresh player information and inventory controls

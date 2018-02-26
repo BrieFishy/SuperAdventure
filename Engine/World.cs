@@ -97,24 +97,41 @@ namespace Engine
 
         private static void PopulateQuests()
         {
+            List <String>questNotFinishedDialogues = new List<string>();
+            questNotFinishedDialogues.Add("Alchemist: Got them rats out yet? Oh, all right.");
             Quest clearAlchemistGarden =
                 new Quest(
                     QUEST_ID_CLEAR_ALCHEMIST_GARDEN,
                     "Clear the alchemist's garden",
-                    "Kill rats in the alchemist's garden and bring back 3 rat tails. You will receive a healing potion and 10 gold pieces.", 20, 10);
+                    "Kill rats in the alchemist's garden and bring back 3 rat tails. You will receive a healing potion and 10 gold pieces.",
+                    20,10,
+                    "Alchemist: You there! Get over here! I need your help!" +Environment.NewLine+
+                    "Alchemist: I've been having some trouble with some pesky little animals. I can't get into my garden anymore. Help me out?"+Environment.NewLine+
+                    "Alchemist: Thanks I really appriciate that. I'll reward you, you won't regret helping me.",
+                    questNotFinishedDialogues,
+                    "Alchemist: You got me rat tails? To prove to me ya killed 'em? Alright. Thanks.");
 
             clearAlchemistGarden.QuestCompletionItems.Add(new QuestCompletionItem(ItemByID(ITEM_ID_RAT_TAIL), 3));
+            questNotFinishedDialogues.Clear();
 
             clearAlchemistGarden.RewardItem = ItemByID(ITEM_ID_HEALING_POTION);
-
+            questNotFinishedDialogues.Add("Farmer: Kid! Got me them snake fangs? Ah, I see...");
+            questNotFinishedDialogues.Add("Farmer: Ey, snakes gone already?");
             Quest clearFarmersField =
                 new Quest(
                     QUEST_ID_CLEAR_FARMERS_FIELD,
                     "Clear the farmer's field",
-                    "Kill snakes in the farmer's field and bring back 3 snake fangs. You will receive an adventurer's pass and 20 gold pieces.", 20, 20);
+                    "Kill snakes in the farmer's field and bring back 3 snake fangs. You will receive an adventurer's pass and 20 gold pieces.", 
+                    20, 20,
+                    "Farmer: Ey! Kid! How 'bout you go out back to the field and do me a lil job, eh?"+Environment.NewLine+
+                    "Farmer: Got snakes back there running through my field. Get rid of a few for me, will ya?"+Environment.NewLine+
+                    "Farmer: Thanks kid.",
+                    questNotFinishedDialogues,
+                    "Farmer: Finally did 'em in, did ya? Okay, here's your stuff, as promised."
+                    );
 
             clearFarmersField.QuestCompletionItems.Add(new QuestCompletionItem(ItemByID(ITEM_ID_SNAKE_FANG), 3));
-
+            questNotFinishedDialogues.Clear();
             clearFarmersField.RewardItem = ItemByID(ITEM_ID_ADVENTURER_PASS);
 
             Quests.Add(clearAlchemistGarden);
