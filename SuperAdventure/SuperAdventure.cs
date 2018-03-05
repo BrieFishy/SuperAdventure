@@ -123,7 +123,9 @@ namespace SuperAdventure
                         else
                         {
                             List<String> dialogues = newLocation.QuestAvailableHere.QuestNotFinishedDialogues;
-                            rtbMessages.Text += dialogues[RandomNumberGenerator.NumberBetween(0, dialogues.Count()-1)]+Environment.NewLine;
+                            int randomNumber = RandomNumberGenerator.NumberBetween(1, dialogues.Count());
+                            rtbMessages.Text += randomNumber;
+                            rtbMessages.Text += dialogues[randomNumber]+Environment.NewLine;
                         }
                     }
                 }

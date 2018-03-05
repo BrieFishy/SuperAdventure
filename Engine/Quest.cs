@@ -27,7 +27,7 @@ namespace Engine
             RewardExperiencePoints = rewardExperiencePoints;
             RewardGold = rewardGold;
             GetQuestDialogue = getQuestDialogue;
-            QuestNotFinishedDialogues = questNotFinishedDialogues;
+            QuestNotFinishedDialogues = questNotFinishedDialogues.ToList();
             QuestFinishedDialogue = questFinishedDialogue;
             QuestCompletionItems = new List<QuestCompletionItem>();
         }
